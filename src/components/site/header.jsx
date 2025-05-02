@@ -1,5 +1,4 @@
-import { Book, Menu, Sunset, Trees, Zap } from "lucide-react";
-
+import { Menu } from "lucide-react";
 import {
   Accordion,
   AccordionContent,
@@ -23,92 +22,45 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 
-const Header = ({
-  logo = {
-    url: "/",
-    src: "",
-    alt: "logo",
-    title: "Endeavor",
+// Placeholder SVG for dolphin + wave icon
+const LogoIcon = () => (
+  <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+    {/* Dolphin body */}
+    <path d="M8 20c4-8 16-8 16 0" stroke="#0ea5e9" strokeWidth="2" fill="none"/>
+    {/* Wave */}
+    <path d="M6 24c4 2 16 2 20 0" stroke="#38bdf8" strokeWidth="2" fill="none"/>
+    {/* Dolphin fin */}
+    <path d="M16 16l2-4" stroke="#0ea5e9" strokeWidth="2" fill="none"/>
+  </svg>
+);
+
+const menu = [
+  {
+    title: "Platform",
+    url: "#",
+    items: [
+      { title: "Features", url: "#features" },
+      { title: "How It Works", url: "#how-it-works" },
+      { title: "API & Docs", url: "#api-docs" },
+    ],
   },
-  menu = [
-    { title: "Home", url: "/" },
-    {
-      title: "Product",
-      url: "#",
-      items: [
-        {
-          title: "Features",
-          description: "See what Endeavor offers",
-          icon: <Book className="size-5 shrink-0" />,
-          url: "/features",
-        },
-        {
-          title: "About",
-          description: "Learn more about us",
-          icon: <Trees className="size-5 shrink-0" />,
-          url: "/about",
-        },
-        {
-          title: "Contact",
-          description: "Get in touch with our team",
-          icon: <Sunset className="size-5 shrink-0" />,
-          url: "/contact",
-        },
-        {
-          title: "Support",
-          description: "Open a GitHub issue",
-          icon: <Zap className="size-5 shrink-0" />,
-          url: "https://github.com/your-repo/endeavor/issues",
-        },
-      ],
-    },
-    {
-      title: "Resources",
-      url: "#",
-      items: [
-        {
-          title: "Docs",
-          description: "Read the documentation",
-          icon: <Book className="size-5 shrink-0" />,
-          url: "https://github.com/your-repo/endeavor#readme",
-        },
-        {
-          title: "Changelog",
-          description: "See what's new",
-          icon: <Zap className="size-5 shrink-0" />,
-          url: "/changelog",
-        },
-        {
-          title: "GitHub",
-          description: "View the source code",
-          icon: <Trees className="size-5 shrink-0" />,
-          url: "https://github.com/your-repo/endeavor",
-        },
-      ],
-    },
-    {
-      title: "Platform",
-      url: "#",
-      items: [
-        {
-          title: "Login",
-          description: "Sign in to your account",
-          icon: <Zap className="size-5 shrink-0" />,
-          url: "/auth/signin",
-        },
-        {
-          title: "Get Started",
-          description: "How to get started",
-          icon: <Sunset className="size-5 shrink-0" />,
-          url: "https://github.com/your-repo/endeavor#how-to-get-started",
-        },
-      ],
-    },
-  ],
-  auth = {
-    login: { title: "Login", url: "/auth/signin" },
-    signup: { title: "Sign up", url: "/auth/signup" },
-}) => {
+  {
+    title: "Solutions",
+    url: "#",
+    items: [
+      { title: "Daily Briefings", url: "#daily-briefings" },
+      { title: "Agency Edition", url: "#agency-edition" },
+      { title: "Enterprise Insights", url: "#enterprise-insights" },
+    ],
+  },
+];
+
+const auth = {
+  login: { title: "Login", url: "/auth/signin" },
+  signup: { title: "Get Started", url: "#get-started" },
+};
+
+const Header = () => {
   return (
     <section className="py-4">
       <div className="container">
@@ -116,19 +68,10 @@ const Header = ({
         <nav className="hidden justify-between lg:flex">
           <div className="flex items-center gap-6">
             {/* Logo */}
-            <a
-              href={logo.url}
-              className="flex items-center gap-2"
-              children={
-                logo.src !== "" ? (
-                  <img src={logo.src} className="max-h-8" alt={logo.alt} />
-                ) : (
-                  <span className="text-lg font-semibold tracking-tighter">
-                    {logo.title}
-                  </span>
-                )
-              }
-            />
+            <a href="/" className="flex items-center gap-2">
+              <LogoIcon />
+              <span className="text-lg font-bold tracking-tighter text-sky-700">Bottlenose</span>
+            </a>
             <div className="flex items-center">
               <NavigationMenu>
                 <NavigationMenuList>
@@ -151,8 +94,9 @@ const Header = ({
         <div className="block lg:hidden">
           <div className="flex items-center justify-between">
             {/* Logo */}
-            <a href={logo.url} className="flex items-center gap-2">
-              <img src={logo.src} className="max-h-8" alt={logo.alt} />
+            <a href="/" className="flex items-center gap-2">
+              <LogoIcon />
+              <span className="text-lg font-bold tracking-tighter text-sky-700">Bottlenose</span>
             </a>
             <Sheet>
               <SheetTrigger asChild>
@@ -163,8 +107,9 @@ const Header = ({
               <SheetContent className="overflow-y-auto">
                 <SheetHeader>
                   <SheetTitle>
-                    <a href={logo.url} className="flex items-center gap-2">
-                      <img src={logo.src} className="max-h-8" alt={logo.alt} />
+                    <a href="/" className="flex items-center gap-2">
+                      <LogoIcon />
+                      <span className="text-lg font-bold tracking-tighter text-sky-700">Bottlenose</span>
                     </a>
                   </SheetTitle>
                 </SheetHeader>
@@ -176,7 +121,6 @@ const Header = ({
                   >
                     {menu.map((item) => renderMobileMenuItem(item))}
                   </Accordion>
-
                   <div className="flex flex-col gap-3">
                     <Button asChild variant="outline">
                       <a href={auth.login.url}>{auth.login.title}</a>
@@ -202,15 +146,23 @@ const renderMenuItem = (item) => {
         <NavigationMenuTrigger>{item.title}</NavigationMenuTrigger>
         <NavigationMenuContent className="bg-popover text-popover-foreground">
           {item.items.map((subItem) => (
-            <NavigationMenuLink asChild key={subItem.title} className="w-80">
-              <SubMenuLink item={subItem} />
+            <NavigationMenuLink
+              asChild
+              key={subItem.title}
+              className="w-56"
+            >
+              <a
+                href={subItem.url}
+                className="block px-4 py-2 text-sm hover:bg-muted rounded"
+              >
+                {subItem.title}
+              </a>
             </NavigationMenuLink>
           ))}
         </NavigationMenuContent>
       </NavigationMenuItem>
     );
   }
-
   return (
     <NavigationMenuItem key={item.title}>
       <NavigationMenuLink
@@ -232,13 +184,18 @@ const renderMobileMenuItem = (item) => {
         </AccordionTrigger>
         <AccordionContent className="mt-2">
           {item.items.map((subItem) => (
-            <SubMenuLink key={subItem.title} item={subItem} />
+            <a
+              key={subItem.title}
+              href={subItem.url}
+              className="block px-4 py-2 text-sm rounded hover:bg-muted"
+            >
+              {subItem.title}
+            </a>
           ))}
         </AccordionContent>
       </AccordionItem>
     );
   }
-
   return (
     <a key={item.title} href={item.url} className="text-md font-semibold">
       {item.title}
@@ -246,23 +203,5 @@ const renderMobileMenuItem = (item) => {
   );
 };
 
-const SubMenuLink = ({ item }) => {
-  return (
-    <a
-      className="flex flex-row gap-4 rounded-md p-3 leading-none no-underline transition-colors outline-none select-none hover:bg-muted hover:text-accent-foreground"
-      href={item.url}
-    >
-      <div className="text-foreground">{item.icon}</div>
-      <div>
-        <div className="text-sm font-semibold">{item.title}</div>
-        {item.description && (
-          <p className="text-sm leading-snug text-muted-foreground">
-            {item.description}
-          </p>
-        )}
-      </div>
-    </a>
-  );
-};
-
 export { Header };
+export default Header;

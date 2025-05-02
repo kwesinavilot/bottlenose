@@ -1,62 +1,96 @@
 "use client";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Toaster, toast } from "@/components/ui/sonner";
 
 export default function Home() {
   return (
     <>
-      <main className="flex flex-col items-center justify-center min-h-[80vh] px-4">
-        <Card className="w-full max-w-xl shadow-lg">
-          <CardHeader>
-            <CardTitle>
-              <h1 className="text-center">
-                Build MVPs Faster with Endeavor
-              </h1>
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-lg text-center mb-8">
-              Endeavor is a full-stack boilerplate for authentication, database, and UI. Get started in minutes and scale with confidence.
-            </p>
+      {/* Hero Section */}
+      <section className="flex flex-col items-center justify-center min-h-[70vh] py-16 text-center">
+        <div className="max-w-2xl mx-auto">
+          <h1 className="text-3xl md:text-5xl font-bold mb-6">
+            A powerfully simple email newsletter platform.
+          </h1>
+          <p className="text-lg md:text-xl mb-8">
+            Have a minute? Create your first customized email newsletter in a jiff with <span className="font-semibold text-sky-700">Bottlenose AI</span>.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-2">
+            <Button asChild size="lg" className="px-8 py-4 text-lg" id="get-started">
+              <a href="#get-started">Create Your First Newsletter &rarr;</a>
+            </Button>
+            <span className="text-slate-500 text-base">It’s free</span>
+          </div>
+        </div>
+      </section>
 
-            <div className="flex gap-4 justify-center">
-              <Link href="/auth/signin" passHref legacyBehavior>
-                <Button asChild>
-                  <a
-                    onClick={() =>
-                      toast.success("Redirecting to sign in...", {
-                        description: "Welcome back!",
-                      })
-                    }
-                  >
-                    Get Started
-                  </a>
-                </Button>
-              </Link>
-              <Link href="/about" passHref legacyBehavior>
-                <Button
-                  asChild
-                  variant="outline"
-                  className="border-primary text-primary hover:bg-primary/10"
-                >
-                  <a
-                    onClick={() =>
-                      toast.info("Learn more about Endeavor", {
-                        description: "See what makes us different.",
-                      })
-                    }
-                  >
-                    Learn More
-                  </a>
-                </Button>
-              </Link>
-            </div>
-          </CardContent>
-        </Card>
-      </main>
-      <Toaster position="bottom-right" />
+      {/* You + AI */}
+      <Section
+        id="you-ai"
+        title="You + AI"
+        subtitle="Powerful alone, unbeatable together"
+        description="Harness your expertise and our AI agents in tandem—research, draft, and deliver newsletters that blend human insight with machine speed."
+      />
+
+      {/* Customization */}
+      <Section
+        id="customization"
+        title="Customization"
+        subtitle="Personalization that’s intuitive (not frustrating)"
+        description="Fine-tune tone, format, and sources in just a few clicks—no deep settings menus, just straight-forward controls that respect your time."
+      />
+
+      {/* Efficiency */}
+      <Section
+        id="efficiency"
+        title="Efficiency"
+        subtitle="Automate the grind, focus on impact"
+        description="From gathering the latest stories to shaping the final draft, Bottlenose handles every step so you can refine the ideas that matter."
+      />
+
+      {/* Collaboration */}
+      <Section
+        id="collaboration"
+        title="Collaboration"
+        subtitle="Teamwork made seamless"
+        description="Invite collaborators or clients into your workspace, manage review rounds, and approve final drafts—all within a unified platform."
+      />
+
+      {/* Insight */}
+      <Section
+        id="insight"
+        title="Insight"
+        subtitle="From data to decisions in a click"
+        description="Dive into open-rate trends, click metrics, and sentiment analysis to learn what resonates—and guide your content strategy forward."
+      />
+
+      {/* Scalability */}
+      <Section
+        id="scalability"
+        title="Scalability"
+        subtitle="From solo newsletters to enterprise briefs"
+        description="Whether you’re sending one digest or dozens of targeted campaigns, Bottlenose grows with your needs—no extra setup required."
+      />
+
+      {/* Global Reach */}
+      <Section
+        id="global-reach"
+        title="Global Reach"
+        subtitle="Multilingual delivery without extra effort"
+        description="Publish in any language: our Translation Agent localizes content and adjusts cultural details so every subscriber feels heard."
+      />
     </>
+  );
+}
+
+// Simple Section component for landing page blocks
+function Section({ id, title, subtitle, description }) {
+  return (
+    <section id={id} className="py-16 border-b border-slate-100 text-center">
+      <div className="max-w-2xl mx-auto">
+        <h2 className="text-sky-700 font-bold text-xl mb-2 uppercase tracking-wide">{title}</h2>
+        <h3 className="text-2xl md:text-3xl font-semibold mb-4">{subtitle}</h3>
+        <p className="text-lg text-slate-700">{description}</p>
+      </div>
+    </section>
   );
 }

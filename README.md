@@ -1,217 +1,73 @@
-![Endeavor Stare](https://static1.srcdn.com/wordpress/wp-content/uploads/2022/05/Endeavor-looking-grave-and-serious-in-My-Hero-Academia..jpg?q=50&fit=crop&w=1140&h=&dpr=1.5)
+# Bottlenose
 
-# Endeavor - Full-Stack Boilerplate for Building MVPs
+Bottlenose is your AI-powered, multi-agent newsletter and insights platform—named after the inquisitive, highly social bottlenose dolphin. It automates the end-to-end flow of research, writing, validation, translation, and delivery so that individuals and organizations can subscribe to, or produce, high-quality, timely newsletters without manual source-hunting.
 
-Endeavor is a powerful, flexible, and feature-rich boilerplate for building full-stack MVP (Minimum Viable Product) applications. It provides a robust foundation for authentication, database, UI, and developer experience.
+## Core Value Proposition
 
----
+- **Deep Research, Real-Time**  
+  Uses Perplexity’s Sonar API to scan the live web, aggregate the latest developments on any topic, and surface only the most relevant, cited facts.
+- **Multi-Agent Workflow**  
+  - **Research Agent** harvests and ranks sources.  
+  - **Validation Agent** cross-checks for accuracy and flags contradictions.  
+  - **Authoring Agent** crafts concise summaries with natural-language transitions.  
+  - **Styling Agent** applies your chosen tone (formal, humorous, satirical, etc.).  
+  - **Translation Agent** localizes content into multiple languages.  
+  - **Orator Agent** (optional) generates audio narrations or podcasts.
+- **Flexible Delivery**  
+  Schedule any cadence: daily at 8 AM, weekly on Mondays, monthly deep-dives—via email or webhook.  
+- **Multi-Channel Delivery**  
+  Email delivery powered by Mailgun, plus optional Slack/Webhook endpoints and downloadable PDF/HTML archives.  
+- **White-Label & Theming**  
+  Custom logo, color palette, and footer branding for agency or enterprise clients.  
+- **A/B Testing Module**  
+  Split-test subject lines, content variants, and send times to optimize engagement.  
+- **Multilingual Support**  
+  Automatic translation into each subscriber’s preferred language; auto-localized date/time and cultural references.  
+- **SDK & API Access**  
+  Expose integrations—chatbots, mobile apps, or internal systems—to subscribe users, trigger sends, or fetch archives programmatically.  
+- **Security & Compliance**  
+  Role-based access control, audit logging, GDPR-ready data handling, and end-to-end encryption for sensitive reports.
 
-## ✨ Features
+## Tech Stack
 
-### Authentication
+- **Next.js** (App Router) & **TypeScript**  
+- **Tailwind CSS** & **shadcn/ui** component library  
+- **React Query** for client-side data fetching & cache management  
+- **NextAuth.js** for authentication (OAuth, email magic links)  
+- **Prisma** + PostgreSQL for user, newsletter, and subscription data  
+- **Zod** for runtime schema validation  
+- **react-hook-form** for robust form handling  
+- **next-i18next** for internationalization  
+- **Mailgun** (`@mailgun/js`) for transactional email delivery  
+- **Sentry** (`@sentry/nextjs`) for error tracking and performance monitoring  
 
-- **Google OAuth** (NextAuth.js)
-- **Magic Link / Email Sign-In** (NextAuth.js)
-- **Password-based authentication** (with password reset)
-- **Custom email sending** (Mailgun, Resend, Mailtrap)
-- **UI for all auth flows**: sign in, verify email, error, forgot/reset password
+## High-Level Architecture
 
-### Database
+1. **Frontend (Next.js App)**  
+   - Multi-tenant portal for newsletter creation, scheduling, and analytics.
+2. **Agents & Jobs**  
+   - Serverless functions invoke Perplexity Sonar API and coordinate the research → validate → write → style → translate → (orate) pipeline.
+3. **Database & Auth**  
+   - Prisma + PostgreSQL stores definitions, schedules, subscriber lists, and archives.  
+   - NextAuth.js secures access and session management.
+4. **Email Delivery**  
+   - Completed newsletters are sent via Mailgun’s API with templated content.
+5. **Monitoring & Logging**  
+   - Sentry captures errors and performance data.  
+   - Application logs record job statuses and delivery events.
 
-- **Prisma ORM** with multi-database support (Postgres, MySQL, SQLite, MongoDB)
-- **Migration drafts workflow** for collaborative schema changes
+## Roadmap & Extensibility
 
-### UI & Styling
-
-- **Next.js 14+** (App Router)
-- **Tailwind CSS** with custom theme
-- **shadcn/ui** and **Mantine** ready
-- **Responsive, accessible starter pages**
-
-### Developer Experience
-
-- **Centralized config** for auth, database, mail
-- **.env.example** for environment variables
-- **Changelog** and **README** with roadmap and usage
-- **Scripts** for migration management
-
----
-
-## 🚀 Getting Started
-
-### 1. Create a New Project
-
-```bash
-npx create-endeavor-app my-app
-cd my-app
-npm install
-```
-
-### 2. Configure Environment Variables
-
-Copy `.env.example` to `.env` and fill in your values:
-
-```bash
-cp .env.example .env
-```
-
-Set up your database, mail provider, and auth credentials.
-
-### 3. Run Migrations
-
-```bash
-npx prisma migrate dev --name init
-```
-
-### 4. Start the Development Server
-
-```bash
-npm run dev
-```
+- **Phase 1 – MVP**  
+  - Topic wizard, basic research-to-email pipeline, individual subscriber flows, core analytics.
+- **Phase 2 – Growth**  
+  - Agency dashboard, white-label themes, A/B testing, multi-channel hooks.
+- **Phase 3 – Enterprise**  
+  - Single Sign-On (SAML/OIDC), advanced compliance (SOC 2), on-prem/self-hosted options.
+- **Phase 4 – Ecosystem**  
+  - Public SDKs, plugin marketplace (custom sentiment modules, domain-specific validators).
 
 ---
 
-## 🛡️ Authentication Flows
-
-### Sign In (Magic Link & Google)
-
-- Visit `/auth/signin`
-- Enter your email for a magic link, or use Google OAuth
-
-### Password Reset
-
-- Visit `/auth/forgot-password`
-- Enter your email to receive a reset link
-- Follow the link to `/auth/reset-password?token=...` and set a new password
-
-### Email Verification
-
-- Magic link sign-in emails are sent via your configured provider (Mailgun, Resend, or Mailtrap)
-- Customize email templates in `src/app/api/auth/[...nextauth]/route.js` and `src/lib/sendMail.js`
-
----
-
-## 📧 Mail Provider Setup
-
-Configure your mail provider in `.env`:
-
-```env
-MAIL_PROVIDER=mailtrap # or mailgun, resend
-
-# Mailgun
-MAILGUN_API_KEY=...
-MAILGUN_DOMAIN=...
-MAILGUN_FROM=...
-
-# Resend
-RESEND_API_KEY=...
-RESEND_FROM=...
-
-# Mailtrap (for testing)
-MAILTRAP_HOST=smtp.mailtrap.io
-MAILTRAP_PORT=2525
-MAILTRAP_USER=...
-MAILTRAP_PASS=...
-MAILTRAP_FROM=...
-```
-
----
-
-## 🗄️ Database Setup
-
-Configure your database in `.env`:
-
-```env
-DB_CONNECTION=postgres # or mysql, sqlite, mongodb
-DB_HOST=localhost
-DB_PORT=5432
-DB_DATABASE=endeavor
-DB_USERNAME=postgres
-DB_PASSWORD=secret
-DATABASE_URL=postgresql://postgres:secret@localhost:5432/endeavor
-```
-
----
-
-## 🧑‍💻 Example Usage
-
-### Sign In with Magic Link
-
-```js
-import { signIn } from "next-auth/react";
-
-await signIn("email", { email: "user@example.com", callbackUrl: "/" });
-```
-
-### Sign In with Google
-
-```js
-await signIn("google", { callbackUrl: "/" });
-```
-
-### Password Reset
-
-1. User visits `/auth/forgot-password` and submits email.
-2. Receives email with reset link.
-3. Follows link to `/auth/reset-password?token=...` and sets new password.
-
----
-
-## 🛠️ Project Structure
-
-```
-.
-├── config/           # Centralized config (auth, database, mail)
-├── prisma/           # Prisma schema and migrations
-├── scripts/          # Utility scripts (e.g., append-migrations.js)
-├── src/
-│   ├── app/
-│   │   ├── api/      # API routes (NextAuth, password reset, etc.)
-│   │   ├── auth/     # Auth UI pages
-│   │   ├── page.js   # Home page
-│   │   └── layout.js # Root layout
-│   ├── lib/          # Utilities (sendMail, etc.)
-│   └── styles/       # Tailwind/global CSS
-├── .env.example
-├── package.json
-└── README.md
-```
-
----
-
-## 🧩 Extending the Starter
-
-- Add new Prisma models in `prisma/schema.prisma`
-- Add new UI pages in `src/app/`
-- Add new API endpoints in `src/app/api/`
-- Customize email templates in `src/lib/sendMail.js`
-
----
-
-## 🗺️ Roadmap
-
-- [x] Magic link, Google, and password auth
-- [x] Password reset flow
-- [x] Custom email provider support
-- [x] Migration drafts workflow
-- [ ] Payment integration (Stripe, Paystack)
-- [ ] Admin panel
-- [ ] AI integrations (OpenAI, Claude, Unify, LlamaIndex)
-- [ ] Internationalization (i18n)
-- [ ] Advanced security & performance
-
----
-
-## 🤝 Contributing
-
-Contributions are welcome! See [CONTRIBUTING.md](CONTRIBUTING.md).
-
----
-
-## 📄 License
-
-MIT
-
----
-
-Built with ❤️ and determination by Kwesi Navilot
+> Bottlenose harnesses the spirit of its namesake—curious, social, and intelligent—by diving deep across the web to surface the insights you care about, packaged in a polished, hands-off newsletter experience.
+>
