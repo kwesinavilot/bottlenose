@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { toast } from "@/components/ui/sonner";
+import { signIn } from "next-auth/react";
 
 export default function SignIn() {
   const router = useRouter();
@@ -24,15 +25,27 @@ export default function SignIn() {
   const handleEmailSignIn = async (e) => {
     e.preventDefault();
     setLoading(true);
-    setTimeout(() => {
+    if (!email || !password) {
+      toast.error("Please enter email and password.");
       setLoading(false);
-      if (email && password) {
-        toast.success("Signed in successfully!");
-        router.push("/dashboard");
-      } else {
-        toast.error("Please enter email and password.");
-      }
-    }, 1000);
+      return;
+    }
+    const res = await signIn("credentials", {
+      redirect: false,
+      email,
+      password,
+    });
+    setLoading(false);
+    if (res?.error) {
+      toast.error(
+        res.error === "CredentialsSignin"
+          ? "Invalid email or password."
+          : res.error
+      );
+    } else {
+      toast.success("Signed in successfully!");
+      router.push("/dashboard");
+    }
   };
 
   return (
